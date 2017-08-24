@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 from app.models import Termek
 from django.core.validators import MinValueValidator
@@ -6,10 +7,11 @@ from django.core.validators import MinValueValidator
 class Raktar(models.Model):
     raktar_nev = models.CharField(max_length=255, blank=False, null=False, unique=True)
     megjegyzes = models.TextField(blank=True, null=True)
+    user = models.ManyToManyField(User, related_name='user_raktar', related_query_name="raktarjog")
 
     class Meta:
         verbose_name_plural = "Raktárak"
-
+        ordering = ('raktar_nev',)
     def __str__(self):
         return self.raktar_nev
 

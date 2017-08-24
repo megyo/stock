@@ -1,0 +1,40 @@
+{% extends "app/layout.html" %}
+
+{% block content %}
+
+<h3>Beszállítók listája</h3><br>
+{% if user.is_staff %}
+    <button type="button" class="btn btn-success" onclick="window.location.href='{% url 'beszallito_new' %}'">Új beszállító létrehozása</button>
+{% endif %}
+<table id="beszallitok" class="table table-striped" cellspacing="0" width="100%">
+    <thead>
+    <tr>
+        <th>Beszállító neve</th>
+        <th>Beszállító címe:</th>
+        <th>Ügyintéző</th>
+        <th>Email cím</th>
+        <th>Telefon</th>
+        <th>Megjegyzés</th>
+        <th>Művelet</th>
+    </thead>
+    <tbody>
+
+    {% for b in beszallitok %}
+    <tr>
+        <td width="20%">{{ b.beszallito_nev }}</td>
+        <td width="30%">{% if b.beszallito_cim %} {{ b.beszallito_cim }} {% endif %}</td>
+        <td width="10%">{% if b.beszallito_ugyintezo %} {{ b.beszallito_ugyintezo }} {% endif %}</td>
+        <td width="10%">{% if b.beszallito_email %} {{ b.beszallito_email }} {% endif %}</td>
+        <td width="15%">{% if b.beszallito_telefon %} {{ b.beszallito_telefon }} {% endif %}</td>
+        <td width="15%">{% if b.megjegyzes %} {{ b.megjegyzes }} {% endif %}</td>
+        <td>{% if user.is_staff %}
+                <p data-placement="top" data-toggle="tooltip" title="Módosít"><button class="btn btn-primary" onclick="window.location.href='{% url 'beszallito_edit' pk=b.id %}'"  ><span class="glyphicon glyphicon-pencil"></span></button></p>
+                <!--<button class="btn btn-primary" data-title="view" data-toggle="modal" data-target="#edit" onclick="window.location.href='{% url 'beszallito_edit' pk=b.id %}'" ><span class="glyphicon glyphicon-eye-open"></span></button>-->
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

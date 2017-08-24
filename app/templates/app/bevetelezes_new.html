@@ -1,0 +1,183 @@
+{% extends "app/layout.html" %}
+{% block extrahead %}
+<style type="text/css">
+    .add-row {
+        padding-left:18px;
+        background:url(/media/images/add.png) no-repeat left center;
+    }
+    .delete-row {
+        float:left;
+        display:block;
+        margin:5px 0 0 5px;
+        text-indent: 25px;
+        background:url(/media/images/delete.png) no-repeat left center;
+        width:-1px;
+        height:16px;
+    }
+    tr.row1 td { background-color: #f9f9f9; }
+    tr.row2 td { background-color: #f3f3f3; }
+    tr.row3 td { background-color: #ededed; }
+
+</style>
+{% endblock %}
+{% block content %}
+
+<h1>Bevételezés</h1>
+<hr>
+
+{% if hibas_felvitel %}
+<p>Az alábbi termékeket nem sikerült feltölteni:</p>
+    {% for hiba in hibas_felvitel %}
+        - {{hiba}} <br>
+    {% endfor %}
+{% endif %}
+
+{% load widget_tweaks %}
+<form method="POST" role="form" id="bevetel_form">
+    {% csrf_token %}
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-1" style="text-align: right;">
+                    <h4>Beszállító:</h4>
+                </div>
+                <div class="col-md-4">
+                    {{ form.beszallito|add_class:"form-control"|attr:"autofocus"|attr:"tabindex:1"}}
+                    {{ form.beszallito.errors }}
+                </div>
+            </div>
+            <div class="col-md-1" style="text-align: right;">
+                <h4>Dátum: </h4>
+            </div>
+            <div class="col-md-2">
+                {{ form.bevetel_datum|add_class:"form-control"|attr:"tabindex:2"}}
+                {{ form.bevetel_datum.errors }}
+            </div>
+            <div class="col-md-1" style="text-align: right;">
+                <h4>Szállítólevél: </h4>
+            </div>
+            <div class="col-md-2">
+                {{ form.szallitolevel_szam|add_class:"form-control"|attr:"tabindex:3"}}
+                {{ form.szallitolevel_szam.errors }}
+            </div>
+        </div>
+    <hr>
+    <table id="bevetel" class="table table-striped" cellspacing="0" width="100%">
+        <thead>
+        <tr>
+            <th>Termék</th>
+            <th>Raktár</th>
+            <th>Mennyiség</th>
+            <th>Ár</th>
+            <th>Művelet</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for f2 in termekform.forms %}
+        <tr id="{{ f2.prefix }}-row">
+            <td width="30%">
+                {{ f2.termek_id|add_class:"form-control"|attr:"tabindex:4"}}
+                {{ f2.termek_id.errors }}
+                {{ f2.termek|add_class:"form-control ui-autocomplete-input"|attr:"tabindex:4"|attr:"required"}}
+                {{ f2.termek.errors }}
+            </td>
+            <td width="20%">
+                {{ f2.raktar|add_class:"form-control"|attr:"tabindex:5"|attr:"required"}}
+                {{ f2.raktar.errors }}
+            </td>
+            <td width="10%">
+                {{ f2.bevetel_mennyiseg|add_class:"form-control"|attr:"tabindex:6"|attr:"required"}}
+                {{ f2.bevetel_mennyiseg.errors }}
+            </td>
+            <td width="10%">
+                {{ f2.ar_bevetel_netto|add_class:"form-control"|attr:"tabindex:7"}}
+                {{ f2.ar_bevetel_netto.errors }}
+            </td>
+            <td width="10%"></td>
+
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <div class="row">
+        <div class="col-md-12">
+            <h4>Megjegyzés: </h4>
+            {{ form.megjegyzes|add_class:"form-control"|attr:"tabindex:30"}}
+            {{ form.megjegyzes.errors }}
+        </div>
+    </div>
+    <button style="margin: auto;display:block;font-size: 45px" type="submit" class="btn btn-success"
+            onclick="window.location.href='#'" tabindex="9">
+        Bevétel
+    </button>
+    {{ termekform.management_form }}
+</form>
+{% endblock %}
+
+{% block scripts %}
+{{ form.media }}
+
+<script type="text/javascript">
+    $(function() {
+        $('#bevetel tbody tr').formset({
+            prefix: '{{ termekform.prefix }}',
+        });
+    })
+
+</script>
+
+<script>
+//-------------------------------------------------
+// Bevétel régi script
+
+//document.getElementById("id_beszallito").value = "";
+//document.getElementById("beszallito_id").value = "";
+
+$(".ui-autocomplete-input").focusin (function() {
+    var elem_id = this.id;
+    document.getElementById(elem_id).value = "";
+    document.getElementById(elem_id+"_id").value = "";
+    $("#"+elem_id).autocomplete({
+      source: "{% url 'get_termek' %}",
+      minLength: 2,
+        select: function( event, ui ) {
+        elem = document.getElementById(elem_id).value = ui.item.id;
+        document.getElementById(elem_id+"_id").value = elem;
+      }
+    });
+  });
+
+$(".ui-autocomplete-input").focusout (function() {
+    var elem_id = this.id;
+    elem = document.getElementById(elem_id+"_id").value;
+    window.setTimeout(function() {
+        if (elem == "") {
+            document.getElementById(elem_id).value = "";
+        }
+    },1);
+ });
+
+/*
+document.getElementById("id_beszallito").value = "";
+$( function() {
+    $( "#beszallito-input" ).autocomplete({
+      source: "#",
+      minLength: 2,
+        select: function( event, ui ) {
+        var input_szoveg = document.getElementById("beszallito-input").value = ui.item.value;
+        var input_id = document.getElementById("beszallito-input").value = ui.item.id;
+
+        var x = document.getElementById("id_beszallito");
+        var option = document.createElement("option");
+        option.text = input_szoveg;
+        option.value = input_id;
+        x.add(option, x[0]);
+        x.selectedIndex = "0";
+      }
+    });
+  } );
+*/
+// Bevétel régi script vége
+
+
+</script>
+{% endblock %}
