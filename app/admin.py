@@ -3,11 +3,11 @@ from .models import *
 
 
 admin.site.register(Raktar)
-admin.site.register(Ertekesit)
-admin.site.register(Termek)
-admin.site.register(TermekKategoria)
-admin.site.register(Beszallito)
-admin.site.register(Raktarkeszlet)
+# admin.site.register(Ertekesit)
+# admin.site.register(Termek)
+# admin.site.register(TermekKategoria)
+# admin.site.register(Beszallito)
+# admin.site.register(Raktarkeszlet)
 
 
 class BevetelAdmin(admin.ModelAdmin):

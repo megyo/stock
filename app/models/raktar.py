@@ -1,7 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
 from app.models import Termek
-from django.core.validators import MinValueValidator
 
 
 class Raktar(models.Model):
@@ -27,3 +26,18 @@ class Raktarkeszlet(models.Model):
 
     def __str__(self):
         return str(self.termek) + "   " + str(self.keszlet)
+
+
+class Termek_Osszdb(models.Model):
+    termek_id = models.CharField(max_length=255, primary_key=True)
+    termek_nev = models.CharField(max_length=255)
+    sajat_cikkszam = models.CharField(max_length=255)
+    gyari_cikkszam = models.CharField(max_length=255)
+    # min_keszlet = models.CharField(max_length=255)
+    # keszlet = models.CharField(max_length=255)
+    min_keszlet = models.DecimalField(max_digits=10, decimal_places=2)
+    keszlet = models.DecimalField(max_digits=10, decimal_places=2)
+
+    class Meta:
+        managed = False
+        db_table = 'termek_osszdb'

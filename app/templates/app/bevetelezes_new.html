@@ -18,99 +18,111 @@
     tr.row2 td { background-color: #f3f3f3; }
     tr.row3 td { background-color: #ededed; }
 
+
+
 </style>
 {% endblock %}
 {% block content %}
 
-<h1>Bevételezés</h1>
-<hr>
+<div class="panel panel-primary">
+    <div class="panel-heading"><h5 class="panel-title">Bevételezés</h5></div>
+    <div class="panel-body">
+        <hr>
 
-{% if hibas_felvitel %}
-<p>Az alábbi termékeket nem sikerült feltölteni:</p>
-    {% for hiba in hibas_felvitel %}
+        {% if hibas_felvitel %}
+        <p>Az alábbi termékeket nem sikerült feltölteni:</p>
+        {% for hiba in hibas_felvitel %}
         - {{hiba}} <br>
-    {% endfor %}
-{% endif %}
-
-{% load widget_tweaks %}
-<form method="POST" role="form" id="bevetel_form">
-    {% csrf_token %}
-        <div class="row">
-            <div class="col-md-12">
-                <div class="col-md-1" style="text-align: right;">
-                    <h4>Beszállító:</h4>
-                </div>
-                <div class="col-md-4">
-                    {{ form.beszallito|add_class:"form-control"|attr:"autofocus"|attr:"tabindex:1"}}
-                    {{ form.beszallito.errors }}
-                </div>
-            </div>
-            <div class="col-md-1" style="text-align: right;">
-                <h4>Dátum: </h4>
-            </div>
-            <div class="col-md-2">
-                {{ form.bevetel_datum|add_class:"form-control"|attr:"tabindex:2"}}
-                {{ form.bevetel_datum.errors }}
-            </div>
-            <div class="col-md-1" style="text-align: right;">
-                <h4>Szállítólevél: </h4>
-            </div>
-            <div class="col-md-2">
-                {{ form.szallitolevel_szam|add_class:"form-control"|attr:"tabindex:3"}}
-                {{ form.szallitolevel_szam.errors }}
-            </div>
-        </div>
-    <hr>
-    <table id="bevetel" class="table table-striped" cellspacing="0" width="100%">
-        <thead>
-        <tr>
-            <th>Termék</th>
-            <th>Raktár</th>
-            <th>Mennyiség</th>
-            <th>Ár</th>
-            <th>Művelet</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for f2 in termekform.forms %}
-        <tr id="{{ f2.prefix }}-row">
-            <td width="30%">
-                {{ f2.termek_id|add_class:"form-control"|attr:"tabindex:4"}}
-                {{ f2.termek_id.errors }}
-                {{ f2.termek|add_class:"form-control ui-autocomplete-input"|attr:"tabindex:4"|attr:"required"}}
-                {{ f2.termek.errors }}
-            </td>
-            <td width="20%">
-                {{ f2.raktar|add_class:"form-control"|attr:"tabindex:5"|attr:"required"}}
-                {{ f2.raktar.errors }}
-            </td>
-            <td width="10%">
-                {{ f2.bevetel_mennyiseg|add_class:"form-control"|attr:"tabindex:6"|attr:"required"}}
-                {{ f2.bevetel_mennyiseg.errors }}
-            </td>
-            <td width="10%">
-                {{ f2.ar_bevetel_netto|add_class:"form-control"|attr:"tabindex:7"}}
-                {{ f2.ar_bevetel_netto.errors }}
-            </td>
-            <td width="10%"></td>
-
-        </tr>
         {% endfor %}
-        </tbody>
-    </table>
-    <div class="row">
-        <div class="col-md-12">
-            <h4>Megjegyzés: </h4>
-            {{ form.megjegyzes|add_class:"form-control"|attr:"tabindex:30"}}
-            {{ form.megjegyzes.errors }}
+        {% endif %}
+        <div class="panel panel-default">
+            <div class="panel-heading"><h5 class="panel-title">Bevételezés alapadatai</h5></div>
+            <div class="panel-body">
+                {% load widget_tweaks %}
+                <form method="POST" role="form" id="bevetel_form">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-1" style="text-align: right;">
+                            <h4>Beszállító:</h4>
+                        </div>
+                        <div class="col-md-4">
+                            {{ form.beszallito|add_class:"form-control"|attr:"autofocus"|attr:"tabindex:1"}}
+                            {{ form.beszallito.errors }}
+                        </div>
+                        <div class="col-md-1" style="text-align: right;">
+                            <h4>Dátum: </h4>
+                        </div>
+                        <div class="col-md-2">
+                            {{ form.bevetel_datum|add_class:"form-control"|attr:"tabindex:2"}}
+                            {{ form.bevetel_datum.errors }}
+                        </div>
+                        <div class="col-md-1" style="text-align: right;">
+                            <h4>Szállítólevél: </h4>
+                        </div>
+                        <div class="col-md-2">
+                            {{ form.szallitolevel_szam|add_class:"form-control"|attr:"tabindex:3"}}
+                            {{ form.szallitolevel_szam.errors }}
+                        </div>
+                    </div>
+            </div>
         </div>
+        <div class="panel panel-default">
+            <div class="panel-heading"><h5 class="panel-title">Bevételezés</h5></div>
+            <div class="panel-body">
+                <table id="bevetel" class="table table-striped" cellspacing="0" width="100%">
+                    <thead>
+                    <tr>
+                        <th>Termék</th>
+                        <th>Raktár</th>
+                        <th>Mennyiség</th>
+                        <th>Ár</th>
+                        <th>Művelet</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for f2 in termekform.forms %}
+                    <tr id="{{ f2.prefix }}-row">
+                        <td width="30%">
+                            {{ f2.termek_id|add_class:"form-control"|attr:"tabindex:4"}}
+                            {{ f2.termek_id.errors }}
+                            {{ f2.termek|add_class:"form-control ui-autocomplete-input"|attr:"tabindex:4"|attr:"required"}}
+                            {{ f2.termek.errors }}
+                        </td>
+                        <td width="20%">
+                            {{ f2.raktar|add_class:"form-control"|attr:"tabindex:5"|attr:"required"}}
+                            {{ f2.raktar.errors }}
+                        </td>
+                        <td width="10%">
+                            {{ f2.bevetel_mennyiseg|add_class:"form-control"|attr:"tabindex:6"|attr:"required"}}
+                            {{ f2.bevetel_mennyiseg.errors }}
+                        </td>
+                        <td width="10%">
+                            {{ f2.ar_bevetel_netto|add_class:"form-control"|attr:"tabindex:7"}}
+                            {{ f2.ar_bevetel_netto.errors }}
+                        </td>
+                        <td width="10%"></td>
+
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4>Megjegyzés: </h4>
+                        {{ form.megjegyzes|add_class:"form-control"|attr:"tabindex:30"}}
+                        {{ form.megjegyzes.errors }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button style="margin: auto;display:block;font-size: 45px" type="submit" class="btn btn-success"
+                onclick="window.location.href='#'" tabindex="9">
+            Bevétel
+        </button>
+        {{ termekform.management_form }}
+        </form>
     </div>
-    <button style="margin: auto;display:block;font-size: 45px" type="submit" class="btn btn-success"
-            onclick="window.location.href='#'" tabindex="9">
-        Bevétel
-    </button>
-    {{ termekform.management_form }}
-</form>
+</div>
 {% endblock %}
 
 {% block scripts %}
@@ -122,15 +134,18 @@
             prefix: '{{ termekform.prefix }}',
         });
     })
-
 </script>
 
 <script>
-//-------------------------------------------------
-// Bevétel régi script
 
-//document.getElementById("id_beszallito").value = "";
-//document.getElementById("beszallito_id").value = "";
+    $( function() {
+    $.ui.autocomplete.prototype._renderItem = function (ul, item) {
+        item.label = item.label.replace(new RegExp("(?![^&;]+;)(?!<[^<>]*)(" + $.ui.autocomplete.escapeRegex(this.term) + ")(?![^<>]*>)(?![^&;]+;)", "gi"), "<strong>$1</strong>");
+        return $("<li></li>")
+                .data("item.autocomplete", item)
+                .append("<a>" + item.label + "</a>")
+                .appendTo(ul);
+    };
 
 $(".ui-autocomplete-input").focusin (function() {
     var elem_id = this.id;
@@ -156,6 +171,11 @@ $(".ui-autocomplete-input").focusout (function() {
     },1);
  });
 
+//-------------------------------------------------
+// Bevétel régi script
+
+//document.getElementById("id_beszallito").value = "";
+//document.getElementById("beszallito_id").value = "";
 /*
 document.getElementById("id_beszallito").value = "";
 $( function() {
@@ -177,6 +197,34 @@ $( function() {
   } );
 */
 // Bevétel régi script vége
+
+
+
+</script>
+<script>
+  $(function() {
+    $( ".datum" ).datepicker({
+      showMonthAfterYear: true,
+      changeMonth: true,
+      changeYear: true,
+      yearRange: "1950:2050",
+      dateFormat: "yy.mm.dd.",
+      regional: "hu"
+    });
+  });
+
+
+</script>
+<script type="text/javascript">
+    $.datepicker.regional['hu'] = {
+        monthNamesShort: ['Jan', 'Feb', 'Már', 'Ápr', 'Máj', 'Jún', 'Júl', 'Aug', 'Szep', 'Okt', 'Nov', 'Dec'],
+        dayNamesShort: ['H', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
+        dayNamesMin: ['V', 'H', 'K', 'Sz', 'Cs', 'P', 'Szo'],
+        firstDay: 1
+    }
+
+    $.datepicker.setDefaults($.datepicker.regional['hu']);
+
 
 
 </script>

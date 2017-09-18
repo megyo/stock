@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'bootstrap3',
     'widget_tweaks',
+    'django_crontab',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -115,6 +116,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+CRONJOBS = [
+    ('15 7 * * *', 'app.cron.email')
+]
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/

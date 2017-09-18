@@ -2,14 +2,17 @@
 
 {% block content %}
 
-<h3 style="margin-left:40px;">Beszállító módosítása</h3><br>
-
-<div class="col-md-6">
-    {% load bootstrap3 %}
-    <form method="post">
-        {% csrf_token %}
-        {% bootstrap_form form layout="horizontal" %}
-        <button type="submit" class="save btn btn-primary">Módosít</button>
-    </form>
+<div class="panel panel-primary">
+    <div class="panel-heading"><h5 class="panel-title">Beszállító módosítása</h5></div>
+    <div class="panel-body">
+        <div class="col-md-6">
+            {% load bootstrap3 %}
+            <form method="post">
+                {% csrf_token %}
+                {% bootstrap_form form layout="horizontal" %}
+                <button type="submit" class="save btn btn-primary">Módosít</button>
+            </form>
+        </div>
+    </div>
 </div>
 {% endblock %}

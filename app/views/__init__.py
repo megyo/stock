@@ -1,7 +1,4 @@
-'''
-from .SzabalyozoView import *
-from .RiportView import *
-from .RiportView import *
-'''
 from .views import *
-from .PassView import *
+from .passView import *
+from .apiView import *
+from .exportView import *

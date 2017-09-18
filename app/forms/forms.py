@@ -4,8 +4,50 @@ from django.utils.translation import ugettext_lazy as _
 from app.models import Raktar
 from app.models import Ertekesit
 from app.models import Beszallito
+from app.models import Dokumentum
 from app.models import Termek
+from app.models import TermekKategoria
 from dal import autocomplete
+
+class DokForm(forms.ModelForm):
+    dok_nev = forms.CharField(required=True, label="Dokumentum neve")
+    dokfile = forms.FileField(label='Feltöltés')
+
+    class Meta(forms.ModelForm):
+        model = Dokumentum
+        fields = ('dok_nev', 'dokfile')
+
+
+class TermekForm(forms.ModelForm):
+    termek_nev = forms.CharField(label='Termék neve: ', max_length=255, required=True)
+    gyari_cikkszam = forms.CharField(label='Gyári cikkszám: ', max_length=255, required=True)
+    sajat_cikkszam = forms.CharField(label='Saját cikkszám: ', max_length=255, required=False)
+    ar_web_netto = forms.DecimalField(label='Webes nettó ár: ', required=True)
+    ar_bolt_brutto = forms.IntegerField(label='Bolti bruttó ár: ', required=True)
+    elhelyezes = forms.CharField(label='Elhelyezés: ', max_length=255, required=True)
+    min_keszlet = forms.DecimalField(label='Minimum készlet: ', required=True)
+    mennyisegi_egyseg = forms.ChoiceField(
+        required=True,
+        label="Mennyiségi egység",
+        widget=forms.Select,
+        choices=Termek.MENNYISEGI_EGYSEG,
+    )
+    web_link = forms.URLField(label='Web link: ', max_length=255, required=False)
+    termekkategoria = forms.ModelChoiceField(queryset=TermekKategoria.objects.all(), empty_label="Kérem válasszon", required=True, label="Termékkategória")
+    aktiv = forms.BooleanField(label='Aktív: ', initial=True, required=False)
+    megjegyzes = forms.CharField(required=False, label="Megjegyzés", widget=forms.Textarea)
+
+    class Meta(forms.ModelForm):
+        model = Termek
+        fields = ('__all__')
+
+
+class TermekKategoriaForm(forms.ModelForm):
+    termekkategoria = forms.CharField(label='Termékkategória neve: ', max_length=255, required=True)
+
+    class Meta(forms.ModelForm):
+        model = TermekKategoria
+        fields = ('__all__')
 
 
 class BootstrapAuthenticationForm(AuthenticationForm):
@@ -22,10 +64,10 @@ class TermekSearchForm(forms.Form):
     autocomplete = forms.CharField(label='Keres: ', max_length=100)
     autocomplete_id = forms.IntegerField(required=False)
 
-
-def get_user(request):
-    user = request.user.id
-    return user
+#
+# def get_user(request):
+#     user = request.user.id
+#     return user
 
 class ErtekesitForm(forms.ModelForm):
     def __init__(self, current_user, *args, **kwargs):
@@ -77,6 +119,12 @@ class BevetelalapForm(forms.Form):
     # termekek = TermekFormset()
 
 
+class TermekImport(forms.Form):
+    termekek = forms.FileField(label='Feltöltés', help_text='utf-8, csv')
+
+
+
+        # termekek = TermekFormset()
     # class Meta(forms.ModelForm):
     #     model = Bevetel
     #     fields = ('beszallito', 'termek', 'raktar', 'bevetel_mennyiseg', 'ar_bevetel_netto', 'bevetel_datum', 'szallitolevel_szam', 'megjegyzes')
