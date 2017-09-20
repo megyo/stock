@@ -7,7 +7,7 @@
         <div class="panel panel-default">
             <div class="panel-heading"><h5 class="panel-title">Fájl feltöltése</h5></div>
             <div class="panel-body">
-                <div class="col-md-5">
+                <div class="col-md-6">
                     {% load bootstrap3 %}
                     <form method="POST" enctype="multipart/form-data">
                         {% csrf_token %}
@@ -39,18 +39,19 @@
                             <th>Gyári cikkszám</th>
                             <th>Saját cikkszám</th>
                             <th>Webáruház nettó ár</th>
-                            <th>Boli bruttó ár</th>
+                            <th>Bolti bruttó ár</th>
                             <th>Elhelyezés</th>
                             <th>Minimum készlet</th>
                             <th>Mennyiségi egység</th>
-                            <th>Web link</th>
                             <th>Termékkategória</th>
+                            <th>Aktív</th>
                             <th>Megjegyzés</th>
+                            <th>Web link</th>
                         </thead>
                         <tbody>
                         {% for row in termek_lista|slice:":10" %}
                         <tr>
-                            <td>{{row.0}}</td>
+                            <td>{{row.0|truncatechars:30}}</td>
                             <td>{{row.1}}</td>
                             <td>{{row.2}}</td>
                             <td>{{row.3}}</td>
@@ -60,7 +61,8 @@
                             <td>{{row.7}}</td>
                             <td>{{row.8}}</td>
                             <td>{{row.9}}</td>
-                            <td>{{row.10}}</td>
+                            <td>{{row.10|truncatechars:20}}</td>
+                            <td>{{row.11|truncatechars:20}}</td>
                         </tr>
                         {% endfor %}
                         </tbody>

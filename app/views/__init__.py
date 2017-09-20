@@ -2,3 +2,8 @@ from .views import *
 from .passView import *
 from .apiView import *
 from .exportView import *
+from .dokumentumView import *
+from .termekkategoriaView import *
+from .beszallitoView import *
+from .bevetelView import *
+from .termekView import *

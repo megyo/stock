@@ -119,8 +119,20 @@ class BevetelalapForm(forms.Form):
     # termekek = TermekFormset()
 
 
+# Termék átvezetés Formok
+class TermekAtvazetAlapForm(forms.Form):
+    raktarbol = forms.ModelChoiceField(queryset=Raktar.objects.all(), empty_label="Kérem válasszon", required=True, label="Raktárból")
+    raktarba = forms.ModelChoiceField(queryset=Raktar.objects.all(), empty_label="Kérem válasszon", required=True, label="Raktárba")
+
+
+class TermekAtvezetTermekForm(forms.Form):
+    termek = forms.CharField(required=True, label="Termék")
+    termek_id = forms.CharField(required=True, label="Termék_id", widget=forms.HiddenInput())
+    mennyiseg = forms.DecimalField(label='Mennyiség: ', required=True)
+
+
 class TermekImport(forms.Form):
-    termekek = forms.FileField(label='Feltöltés', help_text='utf-8, csv')
+    termekek = forms.FileField(label='Feltöltés', help_text='csv fájl, utf-8 BOM nélkül, az első sort törölni kell a mintából, <a href="/media/export/termek_import_minta.csv">Minta fájl</a>')
 
 
 

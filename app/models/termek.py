@@ -16,10 +16,10 @@ class TermekKategoria(models.Model):
 class Termek(models.Model):
     MENNYISEGI_EGYSEG = (
         ('', 'Kérem válasszon'),
-        ('csomag', 'Csomag'),
+        ('Csomag', 'Csomag'),
         ('db', 'db'),
         ('kg', 'Kilogramm'),
-        ('meter', 'Méter'),
+        ('Méter', 'Méter'),
     )
     termek_nev = models.CharField(max_length=255, blank=False, null=False)
     gyari_cikkszam = models.CharField(max_length=255, blank=False, null=False)

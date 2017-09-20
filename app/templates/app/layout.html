@@ -8,7 +8,8 @@
     <link rel="stylesheet" type="text/css" href="{% static 'app/content/dx.spa.css' %}"/>
     <link rel="stylesheet" type="text/css" href="{% static 'app/content/bootstrap.min.css' %}"/>
     <link rel="stylesheet" type="text/css" href="{% static 'app/content/bootstrap-theme.min.css' %}"/>
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'app/content/jquery-ui.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'app/content/theme.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'app/content/dx.common.css' %}"/>
     <link rel="stylesheet" type="text/css" href="{% static 'app/content/dx.light.css' %}"/>
     <link rel="stylesheet" type="text/css" href="{% static 'app/content/site.css' %}"/>
@@ -38,7 +39,7 @@
                         <li><a href="{% url 'beszallito_list' %}">Beszállítók</a></li>
                         {% if user.is_staff %}
                         <li><a href="{% url 'bevetel_new' %}">Bevételezés</a></li>
-                        <li><a href="#">Átvezetés</a></li>
+                        <li><a href="{% url 'termek_atvezetes' %}">Átvezetés</a></li>
                         <li role="separator" class="divider"></li>
                         {% endif %}
                         <li><a href="/admin">Admin</a></li>
@@ -69,7 +70,7 @@
 </div>
 <script src="{% static 'app/scripts/jquery-3.1.0.min.js' %}"></script>
 <script src="{% static 'app/scripts/bootstrap.js' %}"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="{% static 'app/scripts/jquery-ui.min.js' %}"></script>
 <script src="{% static 'app/scripts/dx.all.js' %}"></script>
 <script src="{% static 'app/scripts/jquery.formset.js' %}"></script>
 <script src="{% static 'app/scripts/respond.js' %}"></script>

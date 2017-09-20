@@ -33,11 +33,10 @@
 {% endblock %}
 {% block scripts %}
 <script>
-var termekek = {{termekek|safe}};
 
 $(function(){
     var dataGrid = $("#gridContainer").dxDataGrid({
-        dataSource: termekek,
+        dataSource: "http://localhost:8000/api/get_termekapi/",
         key: 'id',
         allowColumnResizing: true,
         paging: {
@@ -97,12 +96,12 @@ $(function(){
         },
         {
             dataField: "gyari_cikkszam",
-            width: 200,
+            width: 150,
             caption: "Gyári cikkszám",
         },
         {
             dataField: "sajat_cikkszam",
-            width: 200,
+            width: 150,
             caption: "Saját cikkszám",
         },
         {
@@ -133,9 +132,20 @@ $(function(){
             caption: "Mennyiségi egység",
         },
         {
-            dataField: "web_link",
-            width: 200,
-            caption: "Web link",
+		    caption: "Web link",
+			width: 100,
+			dataField: "web_link",
+            alignment: 'center',
+            cellTemplate: function (container, options) {
+                $('<a/>').addClass('dx-link')
+                    .text("Link")
+                    .on('dxclick', function () {
+                        var currentRow=$(this).closest("tr");
+                        var termek_id = currentRow.find("td:eq(14)").text();
+                        window.open(options.value, "_blank");
+                    })
+                    .appendTo(container);
+                }
         },
         {
             dataField: "termekkategoria",

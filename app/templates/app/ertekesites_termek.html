@@ -39,7 +39,7 @@
                     </tr>
                     <tr>
                         <td width="30%"><h4>Link:</h4></td>
-                        <td><h4>{% if termek.web_link %} <a href="{{termek.web_link}}" target="_blank">{{termek.web_link}}</a>
+                        <td><h4>{% if termek.web_link %} <a href="{{termek.web_link}}" target="_blank">{{termek.web_link|truncatechars:50}}</a>
                             {% endif %}</h4></td>
                     </tr>
                     <tr>
@@ -94,12 +94,14 @@
 
 {% block scripts %}
 <script>
-        // Webáruház nettó árából bruttó számolás
-        ar = parseFloat('{{ termek.ar_web_netto }}'.replace(/,/, '.'));
-        document.getElementById("web_brutto").innerHTML = ar * 1.27;
+    // Webáruház nettó árából bruttó számolás
+    ar = parseFloat('{{ termek.ar_web_netto }}'.replace(/,/, '.'));
+    document.getElementById("web_brutto").innerHTML = ar * 1.27;
 
-        // Eladási ár input mezőbe írás
-        document.getElementById("id_ar_eladas_brutto").value = {{termek.ar_bolt_brutto }}
+    // Eladási ár input mezőbe írás
+    ar = "{{termek.ar_bolt_brutto }}";
+    document.getElementById("id_ar_eladas_brutto").value = ar.replace(/\s+/g, '');
 
 </script>
 {% endblock %}
+

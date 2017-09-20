@@ -2,12 +2,13 @@ from django.http import HttpResponse
 from django.db.models import Q
 from django.utils import timezone
 from app.forms import Beszallito
-from app.models import Termek
+from app.models import Termek, termek_riport
 from dal import autocomplete
 from django.contrib.auth.decorators import login_required
 import urllib.request
 from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.serializers.json import DjangoJSONEncoder
 import os
 import json
 import csv
@@ -33,22 +34,12 @@ def get_termek(request):
     return HttpResponse(data, 'application/json')
 
 
-# Beszállító autocomplete régi kód
-# def get_beszallito(request):
-#     if request.is_ajax():
-#         param = request.GET.get('term', None)
-#         beszallito = Beszallito.objects.filter(beszallito_nev__icontains=param)[:20]
-#         results = []
-#         for t in beszallito:
-#             termek_json = {}
-#             termek_json['id'] = t.id
-#             termek_json['value'] = t.beszallito_nev
-#             results.append(termek_json)
-#         data = json.dumps(results)
-#     else:
-#         data = 'fail'
-#
-#     return HttpResponse(data, 'application/json')
+@login_required(login_url='/login/')
+def get_termek_api(request):
+    termek_list = termek_riport.objects.all().values()
+    termekek = json.dumps(list(termek_list), ensure_ascii=False, cls=DjangoJSONEncoder)
+
+    return HttpResponse(termekek, 'application/json')
 
 
 class TermekAutocomplete(LoginRequiredMixin, autocomplete.Select2QuerySetView):

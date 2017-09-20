@@ -47,6 +47,7 @@ urlpatterns = [
     url(r'^termek-autocomplete/$', TermekAutocomplete.as_view(), name='termek-autocomplete', ),
     url(r'^beszallito-autocomplete/$', BeszallitoAutocomplete.as_view(), name='beszallito-autocomplete', ),
     # url(r'^api/get_beszallito/$', app.views.get_beszallito, name='get_beszallito'),
+    url(r'^api/get_termekapi/$', app.views.get_termek_api, name='get_termekapi'),
 
 
     # Alap URL
@@ -56,6 +57,7 @@ urlpatterns = [
     url(r'^beszallito/new$', app.views.beszallito_new, name='beszallito_new'),
     url(r'^beszallito/(?P<pk>[0-9]+)/edit$', app.views.beszallito_edit, name='beszallito_edit'),
     url(r'^bevetel/new$', app.views.bevetel_new, name='bevetel_new'),
+    url(r'^termekatvezetes$', app.views.termek_atvezetes, name='termek_atvezetes'),
 
     url(r'^termek/$', app.views.termek_list, name='termek_list'),
     url(r'^termek/new$', app.views.termek_new, name='termek_new'),

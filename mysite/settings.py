@@ -23,6 +23,8 @@ INSTALLED_APPS = [
     'app',
     'dal',
     'dal_select2',
+    'material',
+    'material.admin',
     # Add your apps here to enable them
     'django.contrib.admin',
     'django.contrib.auth',
@@ -122,6 +124,8 @@ CRONJOBS = [
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
+
+USE_THOUSAND_SEPARATOR = True
 
 LANGUAGE_CODE = 'hu'
 
