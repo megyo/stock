@@ -6,8 +6,25 @@ from app.models import Ertekesit
 from app.models import Beszallito
 from app.models import Dokumentum
 from app.models import Termek
-from app.models import TermekKategoria
+from app.models import TermekKategoria, TermekGyarto
 from dal import autocomplete
+
+
+class BootstrapAuthenticationForm(AuthenticationForm):
+    username = forms.CharField(max_length=254,
+                               widget=forms.TextInput({
+                                   'class': 'form-control',
+                                   'placeholder': 'Név'}))
+    password = forms.CharField(label=_("Password"),
+                               widget=forms.PasswordInput({
+                                   'class': 'form-control',
+                                   'placeholder': 'Jelszó'}))
+
+
+class TermekSearchForm(forms.Form):
+    autocomplete = forms.CharField(label='Keres: ', max_length=100)
+    autocomplete_id = forms.IntegerField(required=False)
+
 
 class DokForm(forms.ModelForm):
     dok_nev = forms.CharField(required=True, label="Dokumentum neve")
@@ -34,6 +51,8 @@ class TermekForm(forms.ModelForm):
     )
     web_link = forms.URLField(label='Web link: ', max_length=255, required=False)
     termekkategoria = forms.ModelChoiceField(queryset=TermekKategoria.objects.all(), empty_label="Kérem válasszon", required=True, label="Termékkategória")
+    termekgyarto = forms.ModelChoiceField(queryset=TermekGyarto.objects.all(), empty_label="Kérem válasszon", required=False, label="Termék gyártó")
+
     aktiv = forms.BooleanField(label='Aktív: ', initial=True, required=False)
     megjegyzes = forms.CharField(required=False, label="Megjegyzés", widget=forms.Textarea)
 
@@ -50,24 +69,13 @@ class TermekKategoriaForm(forms.ModelForm):
         fields = ('__all__')
 
 
-class BootstrapAuthenticationForm(AuthenticationForm):
-    username = forms.CharField(max_length=254,
-                               widget=forms.TextInput({
-                                   'class': 'form-control',
-                                   'placeholder': 'Név'}))
-    password = forms.CharField(label=_("Password"),
-                               widget=forms.PasswordInput({
-                                   'class': 'form-control',
-                                   'placeholder': 'Jelszó'}))
+class TermekGyartoForm(forms.ModelForm):
+    termekgyarto = forms.CharField(label='Termék gyártó neve: ', max_length=255, required=False)
 
-class TermekSearchForm(forms.Form):
-    autocomplete = forms.CharField(label='Keres: ', max_length=100)
-    autocomplete_id = forms.IntegerField(required=False)
+    class Meta(forms.ModelForm):
+        model = TermekGyarto
+        fields = ('__all__')
 
-#
-# def get_user(request):
-#     user = request.user.id
-#     return user
 
 class ErtekesitForm(forms.ModelForm):
     def __init__(self, current_user, *args, **kwargs):
@@ -133,10 +141,3 @@ class TermekAtvezetTermekForm(forms.Form):
 
 class TermekImport(forms.Form):
     termekek = forms.FileField(label='Feltöltés', help_text='csv fájl, utf-8 BOM nélkül, az első sort törölni kell a mintából, <a href="/media/export/termek_import_minta.csv">Minta fájl</a>')
-
-
-
-        # termekek = TermekFormset()
-    # class Meta(forms.ModelForm):
-    #     model = Bevetel
-    #     fields = ('beszallito', 'termek', 'raktar', 'bevetel_mennyiseg', 'ar_bevetel_netto', 'bevetel_datum', 'szallitolevel_szam', 'megjegyzes')

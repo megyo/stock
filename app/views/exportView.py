@@ -21,7 +21,7 @@ def export_termek(request):
     font_style.font.bold = True
 
     columns = ['Azonosító', 'Termék név', 'Gyári cikkszám', 'Saját cikkszám', 'Webes nettó ár', 'Bolti bruttó ár',
-               'Elhelyezés', 'Minimum készlet', 'Mennyiségi egység', 'Web link', 'Termékkategória', 'Megjegyzés',
+               'Elhelyezés', 'Minimum készlet', 'Mennyiségi egység', 'Web link', 'Termék gyártó', 'Termékkategória', 'Megjegyzés',
                'Aktív']
 
     for col_num in range(len(columns)):
@@ -30,7 +30,7 @@ def export_termek(request):
     # Sheet body, remaining rows
     font_style = xlwt.XFStyle()
 
-    rows = termek_riport.objects.all().values_list('id', 'termek_nev', 'gyari_cikkszam', 'sajat_cikkszam', 'ar_web_netto', 'ar_bolt_brutto', 'elhelyezes', 'min_keszlet', 'mennyisegi_egyseg', 'web_link', 'termekkategoria', 'megjegyzes', 'aktiv')
+    rows = termek_riport.objects.all().values_list('id', 'termek_nev', 'gyari_cikkszam', 'sajat_cikkszam', 'ar_web_netto', 'ar_bolt_brutto', 'elhelyezes', 'min_keszlet', 'mennyisegi_egyseg', 'web_link', 'termekgyarto', 'termekkategoria', 'megjegyzes', 'aktiv')
     for row in rows:
         row_num += 1
         for col_num in range(len(row)):

@@ -1,17 +1,12 @@
 from django.http import HttpResponse
 from django.db.models import Q
-from django.utils import timezone
 from app.forms import Beszallito
-from app.models import Termek, termek_riport
+from app.models import Termek, termek_riport, TermekKategoria, TermekGyarto
 from dal import autocomplete
 from django.contrib.auth.decorators import login_required
-import urllib.request
-from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.serializers.json import DjangoJSONEncoder
-import os
 import json
-import csv
 
 
 # API-k
@@ -34,12 +29,31 @@ def get_termek(request):
     return HttpResponse(data, 'application/json')
 
 
+# Termékek lista API
 @login_required(login_url='/login/')
 def get_termek_api(request):
     termek_list = termek_riport.objects.all().values()
     termekek = json.dumps(list(termek_list), ensure_ascii=False, cls=DjangoJSONEncoder)
 
     return HttpResponse(termekek, 'application/json')
+
+
+# Termék kategória lista API
+@login_required(login_url='/login/')
+def get_termekkategoria_api(request):
+    termekkategoria_list = TermekKategoria.objects.all().values()
+    termekkategoria = json.dumps(list(termekkategoria_list), ensure_ascii=False, cls=DjangoJSONEncoder)
+
+    return HttpResponse(termekkategoria, 'application/json')
+
+
+# Termék gyártó lista API
+@login_required(login_url='/login/')
+def get_termekgyarto_api(request):
+    termekgyarto_list = TermekGyarto.objects.all().values()
+    termekgyarto = json.dumps(list(termekgyarto_list), ensure_ascii=False, cls=DjangoJSONEncoder)
+
+    return HttpResponse(termekgyarto, 'application/json')
 
 
 class TermekAutocomplete(LoginRequiredMixin, autocomplete.Select2QuerySetView):
@@ -54,7 +68,7 @@ class TermekAutocomplete(LoginRequiredMixin, autocomplete.Select2QuerySetView):
 
         return qs
 
-
+# Bevételezés beszállító keresés
 class BeszallitoAutocomplete(LoginRequiredMixin, autocomplete.Select2QuerySetView):
     def get_queryset(self):
         if not self.request.user.is_authenticated():
@@ -66,36 +80,3 @@ class BeszallitoAutocomplete(LoginRequiredMixin, autocomplete.Select2QuerySetVie
             qs = qs.filter(beszallito_nev__icontains=self.q)
 
         return qs
-
-
-@login_required(login_url='/login/')
-def web_ar_mod(request):
-    try:
-        url = 'http://www.hegeszteskozpont.hu/export_price_api.phpa'
-        # url = 'http://www.hegeszteskozpont.hu/media/export/export_csv.csv'
-        web_file = urllib.request.urlopen(url).read()
-        with open(os.path.join(settings.MEDIA_ROOT, 'export/ar_import.csv'), 'wb+') as csvfile:
-            csvfile.write(web_file)
-
-        with open(os.path.join(settings.MEDIA_ROOT, 'export/ar_import.csv'), 'r', newline='') as ar_import:
-            reader = csv.reader(ar_import, delimiter=',',)
-            for row in reader:
-                try:
-                    sku = row[0]
-                    ar = float(row[1])
-                    # print(sku+" "+ar)
-
-                    termek = Termek.objects.get(gyari_cikkszam=sku)
-                    # print(termek.ar_web_netto)
-                    if termek.ar_web_netto != ar:
-                        # print("Nem")
-                        termek.ar_web_netto = ar
-                        termek.save()
-                except:
-                    pass
-    except:
-        today = timezone.now()
-        with open(os.path.join(settings.MEDIA_ROOT, 'export/error_log.csv'), 'a+', encoding='utf-8') as error_log:
-            error_log.write(str(today) + " -  Ár módosítás valami nem volt jó! \n")
-
-    return HttpResponse('Ok', content_type="text/plain")

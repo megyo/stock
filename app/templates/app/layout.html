@@ -9,7 +9,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'app/content/bootstrap.min.css' %}"/>
     <link rel="stylesheet" type="text/css" href="{% static 'app/content/bootstrap-theme.min.css' %}"/>
     <link rel="stylesheet" type="text/css" href="{% static 'app/content/jquery-ui.min.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'app/content/theme.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'app/content/jquery-ui.theme.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'app/content/dx.common.css' %}"/>
     <link rel="stylesheet" type="text/css" href="{% static 'app/content/dx.light.css' %}"/>
     <link rel="stylesheet" type="text/css" href="{% static 'app/content/site.css' %}"/>
@@ -33,6 +33,7 @@
                         <li><a href="{% url 'termek_list' %}">Termékek</a></li>
                         {% if user.is_staff %}
                         <li><a href="{% url 'termekkategoria_list' %}">Termékkategóriák</a></li>
+                        <li><a href="{% url 'termekgyarto_list' %}">Termék gyártók</a></li>
                         <li><a href="{% url 'termek_import_feltolt' %}">Tömeges termék feltöltés</a></li>
                         {% endif %}
                         <li role="separator" class="divider"></li>

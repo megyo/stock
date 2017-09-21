@@ -36,7 +36,7 @@
 
 $(function(){
     var dataGrid = $("#gridContainer").dxDataGrid({
-        dataSource: "http://localhost:8000/api/get_termekapi/",
+        dataSource: "{% url 'get_termekapi' %}",
         key: 'id',
         allowColumnResizing: true,
         paging: {
@@ -67,7 +67,7 @@ $(function(){
                     .text('Módosít')
                     .on('dxclick', function () {
                         var currentRow=$(this).closest("tr");
-                        var termek_id = currentRow.find("td:eq(14)").text();
+                        var termek_id = currentRow.find("td:eq(15)").text();
                         location.href = '/termek/' + termek_id + '/edit';
                     })
                     .appendTo(container);
@@ -82,7 +82,7 @@ $(function(){
                     .text('Dokumentumok')
                     .on('dxclick', function () {
                         var currentRow=$(this).closest("tr");
-                        var termek_id = currentRow.find("td:eq(14)").text();
+                        var termek_id = currentRow.find("td:eq(15)").text();
                         location.href = '/dokumentum/' + termek_id + '/list';
                     })
                     .appendTo(container);
@@ -117,9 +117,40 @@ $(function(){
             dataType: "number",
         },
         {
+            dataField: "termekgyarto",
+            width: 150,
+            caption: "Termék gyártó",
+        },
+        {
+            dataField: "termekkategoria",
+            width: 150,
+            caption: "Termékkategória",
+        },
+        {
             dataField: "elhelyezes",
             width: 200,
             caption: "Elhelyezés",
+        },
+        {
+		    caption: "Web link",
+			width: 100,
+			dataField: "web_link",
+            alignment: 'center',
+            cellTemplate: function (container, options) {
+                $('<a/>').addClass('dx-link')
+                    .text("Link")
+                    .on('dxclick', function () {
+                        var currentRow=$(this).closest("tr");
+                        var termek_id = currentRow.find("td:eq(15)").text();
+                        window.open(options.value, "_blank");
+                    })
+                    .appendTo(container);
+                }
+        },
+        {
+            dataField: "megjegyzes",
+            width: 255,
+            caption: "Megjegyzés",
         },
         {
             dataField: "min_keszlet",
@@ -132,36 +163,10 @@ $(function(){
             caption: "Mennyiségi egység",
         },
         {
-		    caption: "Web link",
-			width: 100,
-			dataField: "web_link",
-            alignment: 'center',
-            cellTemplate: function (container, options) {
-                $('<a/>').addClass('dx-link')
-                    .text("Link")
-                    .on('dxclick', function () {
-                        var currentRow=$(this).closest("tr");
-                        var termek_id = currentRow.find("td:eq(14)").text();
-                        window.open(options.value, "_blank");
-                    })
-                    .appendTo(container);
-                }
-        },
-        {
-            dataField: "termekkategoria",
-            width: 150,
-            caption: "Termékkategória",
-        },
-        {
             dataField: "aktiv",
             width: 80,
             caption: "Aktív",
 			format: "boolean",
-        },
-        {
-            dataField: "megjegyzes",
-            width: 255,
-            caption: "Megjegyzés",
         },
         {
             dataField: "id",

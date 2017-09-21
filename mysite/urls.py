@@ -43,11 +43,22 @@ urlpatterns = [
     url(r'^password/$', app.views.change_password, name='change_password'),
 
     # API URL
+    # Termék értékesítés termék keresés
     url(r'^api/get_termek/$', app.views.get_termek, name='get_termek'),
+
     url(r'^termek-autocomplete/$', TermekAutocomplete.as_view(), name='termek-autocomplete', ),
+
+    # Bevételezés beszállító keresés
     url(r'^beszallito-autocomplete/$', BeszallitoAutocomplete.as_view(), name='beszallito-autocomplete', ),
-    # url(r'^api/get_beszallito/$', app.views.get_beszallito, name='get_beszallito'),
+
+    # Termékek lista
     url(r'^api/get_termekapi/$', app.views.get_termek_api, name='get_termekapi'),
+
+    # Termékkategórai lista
+    url(r'^api/get_termekkategoria_api/$', app.views.get_termekkategoria_api, name='get_termekkategoria_api'),
+
+    # Termék gyarto lista
+    url(r'^api/get_termekgyarto_api/$', app.views.get_termekgyarto_api, name='get_termekgyarto_api'),
 
 
     # Alap URL
@@ -67,6 +78,10 @@ urlpatterns = [
     url(r'^termekkategoria/new$', app.views.termekkategoria_new, name='termekkategoria_new'),
     url(r'^termekkategoria/(?P<pk>[0-9]+)/edit$', app.views.termekkategoria_edit, name='termekkategoria_edit'),
 
+    url(r'^termekgyarto/$', app.views.termekgyarto_list, name='termekgyarto_list'),
+    url(r'^termekgyarto/new$', app.views.termekgyarto_new, name='termekgyarto_new'),
+    url(r'^termekgyarto/(?P<pk>[0-9]+)/edit$', app.views.termekgyarto_edit, name='termekgyarto_edit'),
+
     url(r'^dokumentum/(?P<pk>[0-9]+)/list$', app.views.dok_list, name='dok_list'),
     url(r'^dokumentum/(?P<pk>[0-9]+)/new$', app.views.dok_new, name='dok_new'),
     url(r'^dokumentum/(?P<pk>[0-9]+)/(?P<termek_id>[0-9]+)/del$', app.views.dok_del, name='dok_del'),
@@ -75,8 +90,8 @@ urlpatterns = [
     url(r'^termekimport/$', app.views.termek_import, name='termek_import'),
 
     url(r'^webarmod/$', app.views.web_ar_mod, name='web_ar_mod'),
+    url(r'^email/$', app.views.email, name='email'),
     url(r'^termekosszdb/$', app.views.email_termek_osszdb, name='email_termek_osszdb'),
-
 
     # Export URL
     url(r'^export_termek/$', app.views.export_termek, name='export_termek'),

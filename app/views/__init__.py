@@ -4,6 +4,8 @@ from .apiView import *
 from .exportView import *
 from .dokumentumView import *
 from .termekkategoriaView import *
+from .termekgyartoView import *
 from .beszallitoView import *
 from .bevetelView import *
 from .termekView import *
+from .cron import *

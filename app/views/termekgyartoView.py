@@ -1,61 +1,61 @@
 from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404
-from app.forms import TermekKategoriaForm
-from app.models import TermekKategoria
+from app.forms import TermekGyartoForm
+from app.models import TermekGyarto
 from django.contrib.admin.views.decorators import staff_member_required
 
 
 @staff_member_required(login_url='/login/')
-def termekkategoria_list(request):
+def termekgyarto_list(request):
     # termekkategoria_list = TermekKategoria.objects.all().values()
     # termekkategoria = json.dumps(list(termekkategoria_list), ensure_ascii=False, cls=DjangoJSONEncoder)
 
     return render(
         request,
-        'app/termekkategoria_list.html',
+        'app/termekgyarto_list.html',
         {
-            'title': 'Termékkategóriák listája',
+            'title': 'Termék gyártók listája',
             # 'termekkategoria': termekkategoria,
         }
     )
 
 
 @staff_member_required(login_url='/login/')
-def termekkategoria_new(request):
+def termekgyarto_new(request):
     if request.method == "POST":
-        form = TermekKategoriaForm(request.POST)
+        form = TermekGyartoForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('termekkategoria_list')
+            return redirect('termekgyarto_list')
     else:
-        form = TermekKategoriaForm()
+        form = TermekGyartoForm()
 
     return render(
         request,
-        'app/termekkategoria_new.html',
+        'app/termekgyarto_new.html',
         {
-            'title': 'Új termékkategoria létrehozása',
+            'title': 'Új termék gyártó létrehozása',
             'form': form
         }
     )
 
 
 @staff_member_required(login_url='/login/')
-def termekkategoria_edit(request, pk):
-    termekkategoria = get_object_or_404(TermekKategoria, pk=pk)
+def termekgyarto_edit(request, pk):
+    termekgyarto = get_object_or_404(TermekGyarto, pk=pk)
     if request.method == "POST":
-        form = TermekKategoriaForm(request.POST, instance=termekkategoria)
+        form = TermekGyartoForm(request.POST, instance=termekgyarto)
         if form.is_valid():
             form.save()
-            return redirect('termekkategoria_list')
+            return redirect('termekgyarto_list')
     else:
-        form = TermekKategoriaForm(instance=termekkategoria)
+        form = TermekGyartoForm(instance=termekgyarto)
 
     return render(
         request,
-        'app/termekkategoria_edit.html',
+        'app/termekgyarto_edit.html',
         {
-            'title': 'Termékkategória módosítása',
+            'title': 'Termék gyártó módosítása',
             'form': form
         }
     )

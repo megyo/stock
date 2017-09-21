@@ -3,6 +3,15 @@ from django.core.validators import URLValidator
 from django.core.validators import MinValueValidator
 
 
+class TermekGyarto(models.Model):
+    termekgyarto = models.CharField(max_length=255, blank=False, null=False, unique=True)
+
+    class Meta:
+        verbose_name_plural = "Termék gyártók"
+
+    def __str__(self):
+        return self.termekgyarto
+
 class TermekKategoria(models.Model):
     termekkategoria = models.CharField(max_length=255, blank=False, null=False, unique=True)
 
@@ -31,6 +40,7 @@ class Termek(models.Model):
     mennyisegi_egyseg = models.CharField(max_length=255, choices=MENNYISEGI_EGYSEG, blank=False, null=False)
     web_link = models.TextField(validators=[URLValidator()], blank=True, null=True)
     termekkategoria = models.ForeignKey(TermekKategoria, blank=False, null=False)
+    termekgyarto = models.ForeignKey(TermekGyarto, blank=True, null=True)
     megjegyzes = models.TextField(blank=True, null=True)
     aktiv = models.BooleanField()
 

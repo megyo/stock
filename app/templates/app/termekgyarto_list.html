@@ -3,12 +3,12 @@
 {% block content %}
 
 <div class="panel panel-primary">
-    <div class="panel-heading"><h5 class="panel-title">Termékkategóriák listája</h5></div>
+    <div class="panel-heading"><h5 class="panel-title">Termék gyártók listája</h5></div>
     <div class="panel-body">
         <p></p>
         {% if user.is_staff %}
-        <button type="button" class="btn btn-success" onclick="window.location.href='{% url 'termekkategoria_new' %}'">
-            Új termékkategória létrehozása
+        <button type="button" class="btn btn-success" onclick="window.location.href='{% url 'termekgyarto_new' %}'">
+            Új gyártó létrehozása
         </button>
         {% endif %}
         <p></p>
@@ -26,14 +26,13 @@
         </div>
     </div>
 </div>
-<div id="btn"></div>
 {% endblock %}
 {% block scripts %}
 <script>
 
 $(function(){
     var dataGrid = $("#gridContainer").dxDataGrid({
-        dataSource: "{% url 'get_termekkategoria_api' %}",
+        dataSource: "{% url 'get_termekgyarto_api' %}",
         key: 'id',
         allowColumnResizing: true,
         paging: {
@@ -51,16 +50,6 @@ $(function(){
             visible: true,
             applyFilter: "auto"
         },
-        "export": {
-            enabled: true,
-            fileName: "Szabályozó munkák riport",
-            allowExportSelectedData: true
-        },
-        searchPanel: {
-            visible: true,
-            width: 240,
-            placeholder: "Keresés..."
-        },
         headerFilter: {
             visible: true
         },
@@ -74,16 +63,16 @@ $(function(){
                     .text('Módosít')
                     .on('dxclick', function () {
                         var currentRow=$(this).closest("tr");
-                        var termekkat_id = currentRow.find("td:eq(2)").text();
-                        location.href = '/termekkategoria/' + termekkat_id + '/edit';
+                        var termekgyarto_id = currentRow.find("td:eq(2)").text();
+                        location.href = '/termekgyarto/' + termekgyarto_id + '/edit';
                     })
                     .appendTo(container);
                 }
         },
         {
-            dataField: "termekkategoria",
+            dataField: "termekgyarto",
 			width: 500,
-            caption: "Termékkategória neve",
+            caption: "Termék gyártó neve",
             dataType: "string",
         },
         {
@@ -97,14 +86,6 @@ $(function(){
         }
     }).dxDataGrid('instance');
 
-});
-
-$("#btn").dxButton({
-    text: "Delete the second row",
-    onClick: function () {
-
-        $("#gridContainer").dxDataGrid("instance").refresh();
-    }
 });
 
 </script>

@@ -29,6 +29,7 @@ class termek_riport(models.Model):
     mennyisegi_egyseg = models.CharField(max_length=255)
     web_link = models.CharField(max_length=255)
     termekkategoria = models.CharField(max_length=255)
+    termekgyarto = models.CharField(max_length=255)
     megjegyzes = models.CharField(max_length=255)
     aktiv = models.BooleanField()
 
