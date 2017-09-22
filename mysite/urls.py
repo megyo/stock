@@ -63,16 +63,17 @@ urlpatterns = [
 
     # Alap URL
     url(r'^$', app.views.index, name='index'),
-    url(r'^ertekesites_termek/(?P<pk>[0-9]+)/show/$', app.views.ertekesites_termek, name='ertekesites_termek'),
     url(r'^beszallito/$', app.views.beszallito_list, name='beszallito_list'),
     url(r'^beszallito/new$', app.views.beszallito_new, name='beszallito_new'),
     url(r'^beszallito/(?P<pk>[0-9]+)/edit$', app.views.beszallito_edit, name='beszallito_edit'),
     url(r'^bevetel/new$', app.views.bevetel_new, name='bevetel_new'),
-    url(r'^termekatvezetes$', app.views.termek_atvezetes, name='termek_atvezetes'),
 
     url(r'^termek/$', app.views.termek_list, name='termek_list'),
     url(r'^termek/new$', app.views.termek_new, name='termek_new'),
     url(r'^termek/(?P<pk>[0-9]+)/edit$', app.views.termek_edit, name='termk_edit'),
+
+    url(r'^termek-ertekesites/(?P<pk>[0-9]+)/show/$', app.views.termek_ertekesites, name='termek_ertekesites'),
+    url(r'^termekatvezetes$', app.views.termek_atvezetes, name='termek_atvezetes'),
 
     url(r'^termekkategoria/$', app.views.termekkategoria_list, name='termekkategoria_list'),
     url(r'^termekkategoria/new$', app.views.termekkategoria_new, name='termekkategoria_new'),

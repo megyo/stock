@@ -15,11 +15,11 @@ def index(request):
             param_id = form.cleaned_data['autocomplete_id']
 
             if param_id == None:
-                termekek = Termek.objects.filter(Q(termek_nev__icontains=param) | Q(gyari_cikkszam__icontains=param) | Q(sajat_cikkszam__icontains=param))
+                termekek = Termek.objects.filter(Q(termek_nev__icontains=param) | Q(gyari_cikkszam__icontains=param) | Q(sajat_cikkszam__icontains=param))[:200]
                 return render(request, 'app/index.html', {'title': 'Értékesítés termék lista', 'termekek': termekek, 'form': form, 'data': True})
 
             if param_id != None:
-                return redirect('ertekesites_termek', pk=param_id)
+                return redirect('termek_ertekesites', pk=param_id)
 
     else:
         form = TermekSearchForm()

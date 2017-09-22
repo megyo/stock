@@ -70,8 +70,8 @@ $(function(){
 			width: 120,
             alignment: 'center',
             cellTemplate: function (container, options) {
-                $('<a/>').addClass('dx-link')
-                    .text('Módosít')
+                $('<a/>').addClass('dx-link glyphicon glyphicon-pencil')
+                    //.text('Módosít')
                     .on('dxclick', function () {
                         var currentRow=$(this).closest("tr");
                         var termekkat_id = currentRow.find("td:eq(2)").text();

@@ -39,7 +39,7 @@ def email(request):
 @login_required(login_url='/login/')
 def web_ar_mod(request):
     try:
-        url = 'http://www.hegeszteskozpont.hu/export_price_api.phpa'
+        url = 'http://www.hegeszteskozpont.hu/export_price_api.php'
         # url = 'http://www.hegeszteskozpont.hu/media/export/export_csv.csv'
         web_file = urllib.request.urlopen(url).read()
         with open(os.path.join(settings.MEDIA_ROOT, 'export/ar_import.csv'), 'wb+') as csvfile:
@@ -65,5 +65,8 @@ def web_ar_mod(request):
         today = timezone.now()
         with open(os.path.join(settings.MEDIA_ROOT, 'export/error_log.csv'), 'a+', encoding='utf-8') as error_log:
             error_log.write(str(today) + " -  Ár módosítás valami nem volt jó! \n")
+
+    if os.path.isfile(os.path.join(settings.MEDIA_ROOT, 'export/ar_import.csv')):
+        os.remove(os.path.join(settings.MEDIA_ROOT, 'export/ar_import.csv'))
 
     return HttpResponse('Ok', content_type="text/plain")

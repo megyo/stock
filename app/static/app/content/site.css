@@ -58,3 +58,17 @@ margin-top: 140px;
 .form-control {
 margin-bottom: 5px;
 }
+
+.glyphicon {
+    font-size: 13px;
+    vertical-align: middle;
+    text-align: center;
+    background: white;
+    color: #646d75;
+    width: 25px;
+    height: 25px;
+    border: 2px solid gray;
+    border-radius: 17%;
+    display: inline-block;
+    padding-top:4px;
+}

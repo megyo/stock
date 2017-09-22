@@ -58,31 +58,31 @@ $(function(){
             visible: true
         },
         columns: [
-    	 {
-		    caption: "Művelet",
-			width: 120,
+        {
+		    caption: "Étrékesítés",
+			width: 80,
             alignment: 'center',
             cellTemplate: function (container, options) {
-                $('<a/>').addClass('dx-link')
-                    .text('Módosít')
+                $('<a/>').addClass('dx-link glyphicon glyphicon-shopping-cart')
+                    //.text('Értékesít')
                     .on('dxclick', function () {
                         var currentRow=$(this).closest("tr");
-                        var termek_id = currentRow.find("td:eq(15)").text();
-                        location.href = '/termek/' + termek_id + '/edit';
+                        var termek_id = currentRow.find("td:eq(16)").text();
+                        location.href = '/termek-ertekesites/' + termek_id + '/show';
                     })
                     .appendTo(container);
                 }
         },
     	 {
 		    caption: "Dokumentumok",
-			width: 150,
+			width: 100,
             alignment: 'center',
             cellTemplate: function (container, options) {
-                $('<a/>').addClass('dx-link')
-                    .text('Dokumentumok')
+                $('<a/>').addClass('dx-link glyphicon glyphicon-folder-open')
+                    //.text('Dokumentumok')
                     .on('dxclick', function () {
                         var currentRow=$(this).closest("tr");
-                        var termek_id = currentRow.find("td:eq(15)").text();
+                        var termek_id = currentRow.find("td:eq(16)").text();
                         location.href = '/dokumentum/' + termek_id + '/list';
                     })
                     .appendTo(container);
@@ -137,11 +137,11 @@ $(function(){
 			dataField: "web_link",
             alignment: 'center',
             cellTemplate: function (container, options) {
-                $('<a/>').addClass('dx-link')
-                    .text("Link")
+                $('<a/>').addClass('dx-link glyphicon glyphicon-link')
+                    //.text("Link")
                     .on('dxclick', function () {
                         var currentRow=$(this).closest("tr");
-                        var termek_id = currentRow.find("td:eq(15)").text();
+                        var termek_id = currentRow.find("td:eq(16)").text();
                         window.open(options.value, "_blank");
                     })
                     .appendTo(container);
@@ -167,6 +167,21 @@ $(function(){
             width: 80,
             caption: "Aktív",
 			format: "boolean",
+        },
+    	 {
+		    caption: "Művelet",
+			width: 120,
+            alignment: 'center',
+            cellTemplate: function (container, options) {
+                $('<a/>').addClass('dx-link glyphicon glyphicon-pencil')
+                    //.text('Módosít')
+                    .on('dxclick', function () {
+                        var currentRow=$(this).closest("tr");
+                        var termek_id = currentRow.find("td:eq(16)").text();
+                        location.href = '/termek/' + termek_id + '/edit';
+                    })
+                    .appendTo(container);
+                }
         },
         {
             dataField: "id",

@@ -8,7 +8,7 @@ from app.forms import TermekForm
 from app.forms import TermekImport
 from app.forms import TermekAtvazetAlapForm
 from app.forms import TermekAtvezetTermekForm
-from app.models import TermekKategoria
+from app.models import TermekKategoria, TermekGyarto
 from app.models import Termek
 from app.models import Raktarkeszlet
 from django.core.urlresolvers import reverse
@@ -100,11 +100,19 @@ def termek_atvezetes(request):
                         termek = get_object_or_404(Termek, pk=termek_id)
 
                         raktarkeszletbol = Raktarkeszlet.objects.get(termek=termek, raktar=raktarbol)
-                        raktarkeszletbe = Raktarkeszlet.objects.get(termek=termek, raktar=raktarba)
-
                         jelenlegi_mennyiseg_bol = raktarkeszletbol.keszlet
-                        jelenlegi_mennyiseg_be = raktarkeszletbe.keszlet
 
+                        # Ha nincs még bevételezés a cél raktárba
+                        try:
+                            raktarkeszletbe = Raktarkeszlet.objects.get(termek=termek, raktar=raktarba)
+                            jelenlegi_mennyiseg_be = raktarkeszletbe.keszlet
+                        except:
+                            bevetelezes = Raktarkeszlet(termek=termek, raktar=raktarba, keszlet=0)
+                            bevetelezes.save()
+                            raktarkeszletbe = Raktarkeszlet.objects.get(termek=termek, raktar=raktarba)
+                            jelenlegi_mennyiseg_be = raktarkeszletbe.keszlet
+
+                        # Ha a átvezetendő mennyiség nagyobb mint a készlet akkor hibalista
                         if mennyiseg > jelenlegi_mennyiseg_bol:
                             hibas_felvitel.append(termek_nev + " -- " + str(jelenlegi_mennyiseg_bol) + "-bol " + str(mennyiseg) + " -t szeretett volna átvezetni.")
                         else:
@@ -146,6 +154,9 @@ def termek_import(request):
     with open(os.path.join(settings.MEDIA_ROOT, 'export/termek_import.csv'), 'r', encoding='utf-8') as termek_import:
         reader = csv.reader(termek_import, delimiter=';')
         for index, row in enumerate(reader):
+            termekkategoria = ""
+            termekgyarto = ""
+
             try:
                 termek_nev = row[0].strip()
                 gyari_cikkszam = row[1].strip()
@@ -156,14 +167,21 @@ def termek_import(request):
                 min_keszlet = int(row[6].strip())
                 mennyisegi_egyseg = row[7].strip()
                 termekkat = int(row[8].strip())
-                aktiv = row[9].strip()
-                megjegyzes = row[10].strip()
-                web_link = row[11].strip()
+                termek_gyarto = row[9].strip()
+                aktiv = row[10].strip()
+                megjegyzes = row[11].strip()
+                web_link = row[12].strip()
+
                 termekkategoria = TermekKategoria.objects.get(pk=termekkat)
+
+                try:
+                    termekgyarto = TermekGyarto.objects.get(pk=termek_gyarto)
+                except:
+                    termekgyarto = None
 
                 termek = Termek(termek_nev=termek_nev, gyari_cikkszam=gyari_cikkszam, sajat_cikkszam=sajat_cikkszam, ar_web_netto=ar_web_netto,
                                 ar_bolt_brutto=ar_bolt_brutto, elhelyezes=elhelyezes, min_keszlet=min_keszlet, mennyisegi_egyseg=mennyisegi_egyseg,
-                                web_link=web_link, termekkategoria=termekkategoria, megjegyzes=megjegyzes, aktiv=aktiv)
+                                web_link=web_link, termekkategoria=termekkategoria, megjegyzes=megjegyzes, aktiv=aktiv, termekgyarto=termekgyarto)
                 termek.save()
             except:
                 h = str(index+1) + " - " + termek_nev
@@ -228,7 +246,7 @@ def termek_import_feltolt(request):
 
 
 @login_required(login_url='/login/')
-def ertekesites_termek(request, pk):
+def termek_ertekesites(request, pk):
     termek = get_object_or_404(Termek, pk=pk)
     raktarkeszlet = Raktarkeszlet.objects.filter(termek=pk)
     current_user = request.user
@@ -261,4 +279,4 @@ def ertekesites_termek(request, pk):
         form = ErtekesitForm(current_user)
 
     # return HttpResponse(raki, content_type="text/plain")
-    return render(request, 'app/ertekesites_termek.html', {'title': 'Értékesítés termék', 'termek': termek, 'raktarkeszlet': raktarkeszlet, 'form': form})
+    return render(request, 'app/termek_ertekesites.html', {'title': 'Értékesítés termék', 'termek': termek, 'raktarkeszlet': raktarkeszlet, 'form': form})
