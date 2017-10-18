@@ -41,7 +41,7 @@ class TermekForm(forms.ModelForm):
     sajat_cikkszam = forms.CharField(label='Saját cikkszám: ', max_length=255, required=False)
     ar_web_netto = forms.DecimalField(label='Webes nettó ár: ', required=True)
     ar_bolt_brutto = forms.IntegerField(label='Bolti bruttó ár: ', required=True)
-    elhelyezes = forms.CharField(label='Elhelyezés: ', max_length=255, required=True)
+    elhelyezes = forms.CharField(label='Elhelyezés: ', max_length=255, required=False)
     min_keszlet = forms.DecimalField(label='Minimum készlet: ', required=True)
     mennyisegi_egyseg = forms.ChoiceField(
         required=True,

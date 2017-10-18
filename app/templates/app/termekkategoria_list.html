@@ -37,7 +37,7 @@ $(function(){
         key: 'id',
         allowColumnResizing: true,
         paging: {
-            pageSize: 20
+            pageSize: 15
         },
         pager: {
             showPageSizeSelector: true,
@@ -47,14 +47,14 @@ $(function(){
         selection: {
             mode: "single"
         },
+        "export": {
+            enabled: true,
+            fileName: "Termék kategóriák",
+            allowExportSelectedData: true
+        },
         filterRow: {
             visible: true,
             applyFilter: "auto"
-        },
-        "export": {
-            enabled: true,
-            fileName: "Szabályozó munkák riport",
-            allowExportSelectedData: true
         },
         searchPanel: {
             visible: true,

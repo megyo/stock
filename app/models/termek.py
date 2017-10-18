@@ -8,6 +8,7 @@ class TermekGyarto(models.Model):
 
     class Meta:
         verbose_name_plural = "Termék gyártók"
+        ordering = ('termekgyarto',)
 
     def __str__(self):
         return self.termekgyarto
@@ -17,6 +18,7 @@ class TermekKategoria(models.Model):
 
     class Meta:
         verbose_name_plural = "Termék kategóriák"
+        ordering = ('termekkategoria',)
 
     def __str__(self):
         return self.termekkategoria
@@ -35,7 +37,7 @@ class Termek(models.Model):
     sajat_cikkszam = models.CharField(max_length=255, blank=True, null=True)
     ar_web_netto = models.DecimalField(max_digits=10, decimal_places=2, blank=False, null=False)
     ar_bolt_brutto = models.IntegerField(validators=[MinValueValidator(0)], blank=False, null=False)
-    elhelyezes = models.CharField(max_length=255, blank=False, null=False)
+    elhelyezes = models.CharField(max_length=255, blank=True, null=True)
     min_keszlet = models.IntegerField(validators=[MinValueValidator(0)], blank=False, null=False)
     mennyisegi_egyseg = models.CharField(max_length=255, choices=MENNYISEGI_EGYSEG, blank=False, null=False)
     web_link = models.TextField(validators=[URLValidator()], blank=True, null=True)

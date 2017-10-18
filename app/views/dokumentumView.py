@@ -18,7 +18,7 @@ def dok_list(request, pk):
                   {'title': 'Dokumentumok', 'doklist': dok_list, 'termeknev': termek_nev, 'termek_id': pk})
 
 
-@staff_member_required(login_url='/login/')
+@login_required(login_url='/login/')
 def dok_new(request, pk):
     if request.method == "POST":
         form = DokForm(request.POST, request.FILES)

@@ -15,12 +15,12 @@ import json
 def get_termek(request):
     if request.is_ajax():
         param = request.GET.get('term', None)
-        termek = Termek.objects.filter(Q(termek_nev__icontains=param) | Q(gyari_cikkszam__icontains=param))[:20]
+        termek = Termek.objects.filter(Q(termek_nev__icontains=param) | Q(gyari_cikkszam__icontains=param) | Q(sajat_cikkszam__icontains=param))[:20]
         results = []
         for t in termek:
             termek_json = {}
             termek_json['id'] = t.id
-            termek_json['value'] = t.gyari_cikkszam + " - " + t.termek_nev
+            termek_json['value'] = t.gyari_cikkszam + " - " + t.sajat_cikkszam + " - " + t.termek_nev
             results.append(termek_json)
         data = json.dumps(results)
     else:

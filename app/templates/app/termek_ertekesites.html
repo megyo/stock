@@ -90,6 +90,24 @@
         </div>
     </div>
 </div>
+
+<!--<div class="modal fade" id="myModal" role="dialog">-->
+<!--<div class="modal-dialog modal-sm">-->
+  <!--<div class="modal-content">-->
+    <!--<div class="modal-header">-->
+      <!--<button type="button" class="close" data-dismiss="modal">&times;</button>-->
+      <!--<h4 class="modal-title">Figyelmeztetés</h4>-->
+    <!--</div>-->
+    <!--<div class="modal-body">-->
+      <!--<p>Nincs elég mennyiség a megadott raktárban</p>-->
+    <!--</div>-->
+    <!--<div class="modal-footer">-->
+      <!--<button type="button" class="btn btn-default" data-dismiss="modal">Bezár</button>-->
+    <!--</div>-->
+  <!--</div>-->
+<!--</div>-->
+<!--</div>-->
+
 {% endblock %}
 
 {% block scripts %}
@@ -112,6 +130,19 @@
         web_brutto.style.color = "red"
     }
 
+// Ha az eladás nagyobb mint a raktrákészlet
+/*
+ $("#id_raktarba").change (function() {
+    raktarbol = $("#id_raktarbol").val();
+    raktarba = $("#id_raktarba").val();
+    window.setTimeout(function() {
+        if (raktarbol == raktarba) {
+            $("#myModal").modal()
+            document.getElementById("id_raktarba").value = "";
+        }
+    },1);
+ });
+    */
 </script>
 {% endblock %}
 

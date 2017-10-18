@@ -11,6 +11,7 @@ class Raktar(models.Model):
     class Meta:
         verbose_name_plural = "Raktárak"
         ordering = ('raktar_nev',)
+
     def __str__(self):
         return self.raktar_nev
 

@@ -25,7 +25,6 @@ INSTALLED_APPS = [
     'dal_select2',
     'material',
     'material.admin',
-    # Add your apps here to enable them
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
