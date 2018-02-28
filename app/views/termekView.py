@@ -197,6 +197,7 @@ def termek_import(request):
     else:
         return redirect(reverse('termek_import_feltolt') + '?hiba=1')
 
+
 @staff_member_required(login_url='/login/')
 def termek_import_feltolt(request):
     form = TermekImport()

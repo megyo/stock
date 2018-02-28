@@ -13,6 +13,7 @@ class TermekGyarto(models.Model):
     def __str__(self):
         return self.termekgyarto
 
+
 class TermekKategoria(models.Model):
     termekkategoria = models.CharField(max_length=255, blank=False, null=False, unique=True)
 

@@ -27,11 +27,11 @@
                     </tr>
                     <tr>
                         <td width="30%"><h4>Webáruház bruttó ár:</h4></td>
-                        <td><h4><span id="web_brutto"></span></h4></td>
+                        <td><h4 id="web_brutto">{{ termek.ar_web_netto}} Ft / {{termek.mennyisegi_egyseg}}</h4></td> <!-- Weben bruttó lett az ár -->
                     </tr>
                     <tr>
                         <td width="30%"><h4>Webáruház nettó ár:</h4></td>
-                        <td><h4>{{ termek.ar_web_netto}} Ft / {{termek.mennyisegi_egyseg}}</h4></td>
+                        <td><h4><span id="web_netto"></span></h4></td>
                     </tr>
                     <tr>
                         <td width="30%"><h4>Elhelyezés:</h4></td>
@@ -116,8 +116,8 @@
     ar_web = "{{ termek.ar_web_netto }}";
     ar_web = ar_web.replace(',', '.');
     ar_web = ar_web.replace(/\s+/g, '');
-    var ar_web_afa = ar_web * 1.27;
-    document.getElementById("web_brutto").innerHTML = ar_web_afa.toLocaleString('hu-HU') + " Ft";
+    var ar_web_afa = ar_web / 1.27;
+    document.getElementById("web_netto").innerHTML = ar_web_afa.toLocaleString('hu-HU') + " Ft";
 
     // Eladási ár input mezőbe írás
     ar_bolt = "{{termek.ar_bolt_brutto }}";
@@ -126,7 +126,7 @@
     // Ha a webes ár magassabb mint a bolti akkor piros színnel jelzem
     ar_bolt = ar_bolt.replace(/\s+/g, '');
     ar_bolt = parseFloat(ar_bolt)
-    if (ar_web_afa > ar_bolt){
+    if (ar_web > ar_bolt){
         web_brutto.style.color = "red"
     }
 

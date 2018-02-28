@@ -20,7 +20,7 @@ def export_termek(request):
     font_style = xlwt.XFStyle()
     font_style.font.bold = True
 
-    columns = ['Azonosító', 'Termék név', 'Gyári cikkszám', 'Saját cikkszám', 'Webes nettó ár', 'Bolti bruttó ár',
+    columns = ['Azonosító', 'Termék név', 'Gyári cikkszám', 'Saját cikkszám', 'Webes bruttó ár', 'Bolti bruttó ár',
                'Elhelyezés', 'Minimum készlet', 'Mennyiségi egység', 'Web link', 'Termék gyártó', 'Termékkategória', 'Megjegyzés',
                'Aktív']
 
